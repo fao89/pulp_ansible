@@ -42,6 +42,7 @@ class InstallCollectionTestCase(unittest.TestCase):
         self.addCleanup(self.repo_api.delete, repo.pulp_href)
 
         remote = self.remote_collection_api.create(body)
+        print(remote)
         self.addCleanup(self.remote_collection_api.delete, remote.pulp_href)
 
         # Sync the repository.
@@ -80,5 +81,7 @@ class InstallCollectionTestCase(unittest.TestCase):
 
     def test_install_collection(self):
         """Test whether ansible-galaxy can install a Collection hosted by Pulp."""
-        body = gen_ansible_remote(url=GALAXY_ANSIBLE_BASE_URL, requirements_file=DEMO_REQUIREMENTS)
+        body = gen_ansible_remote(url=GALAXY_ANSIBLE_BASE_URL, policy="on_demand")
+        body["proxy_url"] = "http://localhost:8088/"
+        body["tls_validation"] = False
         self.create_install_scenario(body, ANSIBLE_DEMO_COLLECTION)

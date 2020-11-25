@@ -4,6 +4,7 @@ from django.conf import settings
 from jsonschema import Draft7Validator
 from rest_framework import serializers
 
+from pulpcore.plugin.models import Remote
 from pulpcore.plugin.serializers import (
     ContentChecksumSerializer,
     ModelSerializer,
@@ -93,6 +94,12 @@ class CollectionRemoteSerializer(RemoteSerializer):
     A serializer for Collection Remotes.
     """
 
+    download_concurrency = serializers.IntegerField(
+        help_text="Total number of simultaneous connections.",
+        required=False,
+        min_value=5,
+        default=1,
+    )
     requirements_file = serializers.CharField(
         help_text=_("The string version of Collection requirements yaml."),
         required=False,
@@ -113,6 +120,14 @@ class CollectionRemoteSerializer(RemoteSerializer):
         allow_null=True,
         required=False,
         max_length=2000,
+    )
+    policy = serializers.ChoiceField(
+        help_text=_(
+            "The policy to use when downloading content. The possible values include: "
+            "'immediate', 'on_demand', and 'streamed'. 'immediate' is the default."
+        ),
+        choices=Remote.POLICY_CHOICES,
+        default=Remote.IMMEDIATE,
     )
 
     def validate(self, data):

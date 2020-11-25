@@ -54,6 +54,8 @@ class TokenAuthHttpDownloader(HttpDownloader):
             silence_errors_for_response_status_codes = set()
         self.silence_errors_for_response_status_codes = silence_errors_for_response_status_codes
         super().__init__(url, **kwargs)
+        # https://github.com/aio-libs/aiohttp/issues/850#issuecomment-471663047
+        self.session.headers["Connection"] = "close"
 
     def raise_for_status(self, response):
         """
