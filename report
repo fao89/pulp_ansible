@@ -1,0 +1,238 @@
+AH sync - 0.5.2 sleeping time 0.3s
+==================================
+
+[a]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.194443 | Service time (s): 221.653959
+PASSED
+
+====================================== slowest durations ======================================
+226.22s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.22s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 226.74s (0:03:46) ================================
+
+
+[b]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.204709 | Service time (s): 161.552675
+PASSED
+
+====================================== slowest durations ======================================
+166.09s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+5.50s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 172.56s (0:02:52) ================================
+
+
+[c]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.156414 | Service time (s): 168.517406
+PASSED
+
+====================================== slowest durations ======================================
+172.92s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.12s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 173.29s (0:02:53) ================================
+
+
+AH sync - 0.5.2 sleeping time 0.2s
+==================================
+
+[a]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.299288 | Service time (s): 157.711084
+PASSED
+
+====================================== slowest durations ======================================
+162.46s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+4.95s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 168.31s (0:02:48) ================================
+
+
+[b]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.202328 | Service time (s): 148.094817
+PASSED
+
+====================================== slowest durations ======================================
+152.44s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.14s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 152.86s (0:02:32) ================================
+
+
+[c]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.292952 | Service time (s): 149.515949
+PASSED
+
+====================================== slowest durations ======================================
+154.47s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+2.94s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 158.36s (0:02:38) ================================
+
+
+AH sync - 0.5.2 sleeping time 0.1s
+==================================
+
+[a]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.200372 | Service time (s): 132.149493
+PASSED
+
+====================================== slowest durations ======================================
+136.59s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+4.06s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 141.49s (0:02:21) ================================
+
+
+[b]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.254986 | Service time (s): 130.204866
+PASSED
+
+====================================== slowest durations ======================================
+134.05s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+7.59s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 142.53s (0:02:22) ================================
+
+
+[c]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.245645 | Service time (s): 132.870648
+PASSED
+
+====================================== slowest durations ======================================
+137.29s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+5.76s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 143.98s (0:02:23) ================================
+
+AH sync - 0.5.0 - refresh token issue
+=====================================
+
+[a]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.284673 | Service time (s): 487.516317
+PASSED
+
+====================================== slowest durations ======================================
+495.12s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.20s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 495.74s (0:08:15) ================================
+
+
+[b]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.392256 | Service time (s): 442.112191
+PASSED
+
+====================================== slowest durations ======================================
+449.21s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+15.23s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 466.36s (0:07:46) ================================
+
+
+[c]
+(pulp) [vagrant@pulp3-source-fedora31 pulp_ansible]$ pytest -vv -r sx --color=yes --pyargs --capture=no --durations=0 pulp_ansible/tests/functional/api/collection/v3/test_sync.py
+===================================== test session starts =====================================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/local/lib/pulp/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/vagrant/devel/pulp_ansible
+collected 1 item
+
+pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+->  Sync => Waiting time (s): 0.330395 | Service time (s): 480.15771
+PASSED
+
+====================================== slowest durations ======================================
+487.30s call     pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+13.67s setup    pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+0.00s teardown pulp_ansible/tests/functional/api/collection/v3/test_sync.py::AutomationHubV3SyncCase::test_sync_with_token_from_automation_hub
+================================ 1 passed in 502.87s (0:08:22) ================================
+

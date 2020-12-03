@@ -172,5 +172,13 @@ class SyncHelpersMixin:
         repository_sync_data = RepositorySyncURL(remote=remote.pulp_href)
         sync_response = self.repo_api.sync(repo.pulp_href, repository_sync_data)
         monitor_task(sync_response.task)
+        task = tasks.read(sync_response.task)
+        task_duration = task.finished_at - task.started_at
+        waiting_time = task.started_at - task.pulp_created
+        print(
+            "\n->  Sync => Waiting time (s): {wait} | Service time (s): {service}".format(
+                wait=waiting_time.total_seconds(), service=task_duration.total_seconds()
+            )
+        )
         repo = self.repo_api.read(repo.pulp_href)
         return repo
