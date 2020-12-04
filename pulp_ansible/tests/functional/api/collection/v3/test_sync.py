@@ -188,7 +188,6 @@ class AutomationHubV3SyncCase(unittest.TestCase, SyncHelpersMixin):
         aurl = "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
         body = gen_ansible_remote(
             url="https://cloud.redhat.com/api/automation-hub/",
-            requirements_file="collections:\n  - ansible.posix",
             auth_url=aurl,
             token=os.environ["AUTOMATION_HUB_TOKEN_AUTH"],
             tls_validation=False,
