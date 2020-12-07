@@ -17,7 +17,7 @@ then
   BRANCH_BUILD=0
 else
   BRANCH_BUILD=1
-  BRANCH="${GITHUB_REF##refs/heads/}"
+  BRANCH="master"
 fi
 if [ "${GITHUB_REF##refs/tags/}" = "${GITHUB_REF}" ]
 then
