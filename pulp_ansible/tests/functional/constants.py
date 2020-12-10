@@ -79,10 +79,75 @@ ANSIBLE_COLLECTION_UPLOAD_FIXTURE_URL = urljoin(
 ANSIBLE_COLLECTION_REQUIREMENT = """
 ---
 collections:
-- name: testing.ansible_testing_content
-  version: ">=1.0.0,<=2.0.0"
-  source: https://galaxy-dev.ansible.com/
-- testing.k8s_demo_collection
-- rshad.collection_demo
-- brightcomputing.bcm
+- a10.acos_cli
+- amazon.aws
+- ansible.netcommon
+- ansible.posix
+- ansible.tower
+- ansible.utils
+- arista.avd
+- arista.cvp
+- arista.eos
+- arubanetworks.aoscx
+- azure.azcollection
+- check_point.gaia
+- check_point.mgmt
+- chocolatey.chocolatey
+- cisco.aci
+- cisco.asa
+- cisco.ios
+- cisco.iosxr
+- cisco.mso
+- cisco.nxos
+- cloud.common
+- cyberark.conjur
+- cyberark.conjur_collection
+- cyberark.pas
+- dellemc.enterprise_sonic
+- dellemc.isilon
+- dellemc.powermax
+- dellemc.powerstore
+- dynatrace_innovationlab.dynatrace_collection
+- f5networks.f5_modules
+- fortinet.fortios
+- frr.frr
+- google.cloud
+- hpe.nimble
+- hpe.oneview
+- ibm.ibm_zos_core
+- ibm.ibm_zos_ims
+- ibm.power_aix
+- ibm.power_ibmi
+- ibm.power_vios
+- ibm.qradar
+- ibm.spectrum_virtualize
+- infoblox.nios_modules
+- junipernetworks.junos
+- kubernetes.core
+- netapp.aws
+- netapp.azure
+- netapp.elementsw
+- netapp.ontap
+- newrelic.newrelic_agents
+- nginxinc.nginx_controller
+- nginxinc.nginx_core
+- nvidia.cumulus_linux_roles
+- opensvc.cluster
+- openvswitch.openvswitch
+- phoenixnap.bmc
+- pureport.fabric
+- purestorage.flasharray
+- purestorage.flashblade
+- redhat.insights
+- redhat.openshift
+- redhat.satellite
+- rubrikinc.cdm
+- sensu.sensu_go
+- splunk.enterprise_security
+- splunk.es
+- tirasa.syncope
+- vmware.vmware_rest
+- vyos.vyos
+- wti.remote
 """
+# - redhat.rhv

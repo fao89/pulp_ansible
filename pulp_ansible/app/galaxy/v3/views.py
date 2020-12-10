@@ -149,6 +149,10 @@ class CollectionViewSet(
         """
         Returns a Collections queryset for specified distribution.
         """
+        query_params = {}
+        if "name" in self.kwargs and "nampespace" in self.kwargs:
+            query_params = {"name": self.kwargs["name"], "namespace": self.kwargs["namespace"]}
+
         repo_version = self.get_repository_version(self.kwargs["path"])
         deprecated_query = AnsibleCollectionDeprecated.objects.filter(
             collection=OuterRef("pk"), repository_version=repo_version
@@ -169,9 +173,13 @@ class CollectionViewSet(
             repo_version_removed_at=Max(Subquery(removed_repo_version_query)),
             deprecated=Exists(deprecated_query),
         )
-        collections = collections_qs_annotated.filter(versions__in=repo_version.content).distinct()
+        collections = collections_qs_annotated.filter(
+            versions__in=repo_version.content, **query_params
+        ).distinct()
 
-        versions_qs = CollectionVersion.objects.filter(pk__in=repo_version.content).values_list(
+        versions_qs = CollectionVersion.objects.filter(
+            pk__in=repo_version.content, **query_params
+        ).values_list(
             "collection_id",
             "namespace",
             "name",
