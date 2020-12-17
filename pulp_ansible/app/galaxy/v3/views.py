@@ -3,7 +3,9 @@ from datetime import datetime
 from gettext import gettext as _
 import semantic_version
 
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef, F, Case, When
+from django.db.models.expressions import Window
+from django.db.models.functions.window import FirstValue
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.dateparse import parse_datetime
@@ -30,7 +32,6 @@ from pulp_ansible.app.galaxy.v3.serializers import (
 from pulp_ansible.app.models import (
     AnsibleCollectionDeprecated,
     AnsibleDistribution,
-    Collection,
     CollectionVersion,
     CollectionImport,
 )
@@ -41,7 +42,7 @@ from pulp_ansible.app.serializers import (
 
 from pulp_ansible.app.galaxy.mixins import UploadGalaxyCollectionMixin
 from pulp_ansible.app.galaxy.v3.pagination import LimitOffsetPagination
-from pulp_ansible.app.viewsets import CollectionFilter, CollectionVersionFilter
+from pulp_ansible.app.viewsets import CollectionVersionFilter
 
 
 CollectionTuple = namedtuple("CollectionTuple", ["namespace", "name", "version", "pulp_created"])
@@ -123,7 +124,7 @@ class CollectionViewSet(
     authentication_classes = []
     permission_classes = []
     serializer_class = CollectionSerializer
-    filterset_class = CollectionFilter
+    # filterset_class = CollectionVersionFilter
     pagination_class = LimitOffsetPagination
 
     def filter_queryset(self, queryset):
@@ -151,12 +152,6 @@ class CollectionViewSet(
         Returns a Collections queryset for specified distribution.
         """
         repo_version = self.get_repository_version(self.kwargs["path"])
-        deprecated_query = AnsibleCollectionDeprecated.objects.filter(
-            collection=OuterRef("pk"), repository_version=repo_version
-        )
-        collections = Collection.objects.filter(versions__in=repo_version.content).distinct()
-        collections = collections.annotate(deprecated=Exists(deprecated_query))
-
         versions_qs = CollectionVersion.objects.filter(pk__in=repo_version.content).values_list(
             "collection_id",
             "namespace",
@@ -165,6 +160,8 @@ class CollectionViewSet(
             "pulp_created",
         )
 
+        collection_pks = set()
+
         highest_versions = defaultdict(
             lambda: CollectionTuple(None, None, semantic_version.Version("0.0.0"), None)
         )
@@ -172,6 +169,7 @@ class CollectionViewSet(
             lambda: CollectionTuple(None, None, semantic_version.Version("100000000000.0.0"), None)
         )
         for collection_id, namespace, name, version, pulp_created in versions_qs:
+            collection_pks.add(collection_id)
             version_to_consider = semantic_version.Version(version)
             collection_tuple = CollectionTuple(namespace, name, version_to_consider, pulp_created)
             if version_to_consider > highest_versions[collection_id].version:
@@ -181,7 +179,39 @@ class CollectionViewSet(
 
         self.highest_versions_context = highest_versions  # needed by get__serializer_context
         self.lowest_versions_context = lowest_versions  # needed by get__serializer_context
-        return collections
+
+        deprecated_query = AnsibleCollectionDeprecated.objects.filter(
+            collection=OuterRef("collection_id"), repository_version=repo_version
+        ).only("collection_id")
+
+        versions = CollectionVersion.objects.annotate(
+            repo_version_added_at=Window(
+                expression=FirstValue("version_memberships__pulp_last_updated"),
+                partition_by=[F("collection_id")],
+                order_by=Case(
+                    When(
+                        version_memberships__version_added_id__isnull=False,
+                        then=F("version_memberships__pulp_last_updated"),
+                    ),
+                ),
+            ),
+            repo_version_removed_at=Window(
+                expression=FirstValue("version_memberships__pulp_last_updated"),
+                partition_by=[F("collection_id")],
+                order_by=Case(
+                    When(
+                        version_memberships__version_removed_id__isnull=False,
+                        then=F("version_memberships__pulp_last_updated"),
+                    ),
+                ),
+            ),
+            deprecated=Exists(deprecated_query),
+        ).filter(
+            version_memberships__repository=repo_version.repository,
+            collection_id__in=collection_pks,
+        )
+
+        return versions.distinct("collection_id").only("name", "namespace")
 
     def get_object(self):
         """
