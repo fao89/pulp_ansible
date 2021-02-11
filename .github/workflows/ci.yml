@@ -113,6 +113,8 @@ jobs:
       - name: Script
         run: .github/workflows/scripts/script.sh
         shell: bash
+        env:
+          PY_COLORS: '1'
 
       - name: After failure
         if: failure()
