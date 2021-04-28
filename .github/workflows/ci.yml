@@ -107,6 +107,9 @@ jobs:
         run: |
           .github/workflows/scripts/before_script.sh
 
+      - name: Debugging with tmate
+        uses: mxschmitt/action-tmate@v3.5
+
       - name: Setting secrets
         if: github.event_name != 'pull_request'
         run: python3 .github/workflows/scripts/secrets.py "$SECRETS_CONTEXT"
