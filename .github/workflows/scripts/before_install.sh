@@ -80,11 +80,6 @@ if [ -n "$PULP_OPENAPI_GENERATOR_PR_NUMBER" ]; then
   cd ..
 fi
 
-cd pulp-openapi-generator
-sed -i -e 's/localhost:24817/pulp/g' generate.sh
-sed -i -e 's/:24817/pulp/g' generate.sh
-cd ..
-
 
 git clone --depth=1 https://github.com/pulp/pulp-cli.git
 if [ -n "$PULP_CLI_PR_NUMBER" ]; then
@@ -96,7 +91,7 @@ fi
 
 cd pulp-cli
 pip install -e .
-pulp config create --base-url http://pulp --location tests/settings.toml
+pulp config create --base-url https://pulp --location tests/settings.toml
 cd ..
 
 
