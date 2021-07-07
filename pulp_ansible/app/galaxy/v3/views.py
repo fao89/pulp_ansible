@@ -3,7 +3,7 @@ from gettext import gettext as _
 import semantic_version
 
 from django.contrib.postgres.aggregates import ArrayAgg
-from django.db.models import F
+from django.db.models import F, Q
 from django.db.models.expressions import Window
 from django.db.models.functions.window import FirstValue
 from django.http import StreamingHttpResponse
@@ -137,10 +137,10 @@ class CollectionFilter(BaseFilterSet):
         """Deprecated filter."""
         deprecation = self.request.parser_context["view"]._deprecation
         if value:
-            return qs.filter(pk__in=deprecation)
+            return qs.filter(deprecation)
 
         if value is False:
-            return qs.exclude(pk__in=deprecation)
+            return qs.exclude(deprecation)
         return qs
 
     class Meta:
@@ -168,11 +168,13 @@ class CollectionViewSet(
     @property
     def _deprecation(self):
         """Return deprecated collecion ids."""
-        repo_version = self._repository_version
         deprecated = AnsibleCollectionDeprecated.objects.filter(
-            repository_version=repo_version
-        ).values_list("collection_id", flat=True)
-        self.deprecated_collections_context = deprecated  # needed by get__serializer_context
+            pk__in=self._distro_content
+        ).values_list("namespace", "name", flat=True)
+        deprecations = Q()
+        for namespace, name in deprecated:
+            deprecations |= Q(namespace=namespace, name=name)
+        self.deprecated_collections_context = deprecations  # needed by get__serializer_context
         return deprecated
 
     def get_queryset(self):
@@ -295,14 +297,14 @@ class CollectionViewSet(
         serializer = self.get_serializer(collection, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         deprecated_value = request.data.get("deprecated")
-        if deprecated_value:
-            AnsibleCollectionDeprecated.objects.get_or_create(
-                repository_version=repo_version, collection=collection
-            )
-        else:
-            AnsibleCollectionDeprecated.objects.filter(
-                repository_version=repo_version, collection=collection
-            ).delete()
+        deprecation = AnsibleCollectionDeprecated.objects.get_or_create(
+            namespace=collection.namespace, name=collection.name
+        )
+        with repo_version.repository.new_version() as new_version:
+            if deprecated_value:
+                new_version.add_content(deprecation)
+            else:
+                new_version.remove_content(deprecation)
         return Response(serializer.data)
 
 

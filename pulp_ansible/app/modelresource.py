@@ -2,6 +2,7 @@ from import_export import fields
 from import_export.widgets import ManyToManyWidget
 from pulpcore.plugin.importexport import BaseContentResource, QueryModelResource
 from pulp_ansible.app.models import (
+    AnsibleCollectionDeprecated,
     Role,
     Collection,
     Tag,
@@ -75,6 +76,22 @@ class CollectionResource(QueryModelResource):
         import_id_fields = ("namespace", "name")
 
 
+class CollectionDeprecationResource(BaseContentResource):
+    """
+    Resource for import/export of collection_deprecation-content entities.
+    """
+
+    def set_up_queryset(self):
+        """
+        :return: AnsibleCollectionDeprecated content specific to a specified repo-version.
+        """
+        return AnsibleCollectionDeprecated.objects.filter(pk__in=self.repo_version.content)
+
+    class Meta:
+        model = AnsibleCollectionDeprecated
+        import_id_fields = ("namespace", "name")
+
+
 class TagResource(QueryModelResource):
     """
     Resource for import/export of ansible_tag entities.
@@ -97,6 +114,7 @@ class TagResource(QueryModelResource):
 
 IMPORT_ORDER = [
     CollectionResource,
+    CollectionDeprecationResource,
     TagResource,
     CollectionVersionContentResource,
     RoleContentResource,
