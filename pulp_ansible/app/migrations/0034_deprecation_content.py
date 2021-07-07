@@ -14,6 +14,7 @@ def migrate_data_from_old_model_to_new_model_up(apps, schema_editor):
             deprecation = NewAnsibleCollectionDeprecated(
                 namespace=deprecated_collection.collection.namespace,
                 name=deprecated_collection.collection.name,
+                pulp_type="ansible.collection_deprecation",
             )
             deprecation.save()
             RepositoryContent(

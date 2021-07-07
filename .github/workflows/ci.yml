@@ -7,7 +7,7 @@
 ---
 name: Pulp CI
 on:
-  pull_request:
+  push:
     branches:
       - '*'
 
@@ -123,16 +123,7 @@ jobs:
 
       - name: After failure
         if: failure()
-        run: |
-          echo "Need to debug? Please check: https://github.com/marketplace/actions/debugging-with-tmate"
-          http --timeout 30 --check-status --pretty format --print hb http://pulp/pulp/api/v3/status/ || true
-          docker images || true
-          docker ps -a || true
-          docker logs pulp || true
-          docker exec pulp ls -latr /etc/yum.repos.d/ || true
-          docker exec pulp cat /etc/yum.repos.d/* || true
-          docker exec pulp pip3 list
-
+        uses: mxschmitt/action-tmate@v3.5
   upgrade:
     runs-on: ubuntu-latest
     needs: lint
@@ -149,6 +140,12 @@ jobs:
           # by default, it uses a depth of 1
           # this fetches all history so that we can read each commit
           fetch-depth: 0
+          repository: "pulp/pulp_ansible"
+
+      - name: PR checkout
+        run: |
+          git fetch --depth=1 origin pull/593/head:593
+          git checkout 593
 
       - uses: actions/setup-python@v2
         with:
@@ -198,11 +195,4 @@ jobs:
 
       - name: After failure
         if: failure()
-        run: |
-          http --timeout 30 --check-status --pretty format --print hb http://pulp/pulp/api/v3/status/ || true
-          docker images || true
-          docker ps -a || true
-          docker logs pulp || true
-          docker exec pulp ls -latr /etc/yum.repos.d/ || true
-          docker exec pulp cat /etc/yum.repos.d/* || true
-          docker exec pulp pip3 list
+        uses: mxschmitt/action-tmate@v3.5

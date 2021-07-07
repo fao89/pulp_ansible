@@ -168,14 +168,13 @@ class CollectionViewSet(
     @property
     def _deprecation(self):
         """Return deprecated collecion ids."""
-        deprecated = AnsibleCollectionDeprecated.objects.filter(
-            pk__in=self._distro_content
-        ).values_list("namespace", "name", flat=True)
         deprecations = Q()
-        for namespace, name in deprecated:
+        for namespace, name in AnsibleCollectionDeprecated.objects.filter(
+            pk__in=self._distro_content
+        ).values_list("namespace", "name"):
             deprecations |= Q(namespace=namespace, name=name)
         self.deprecated_collections_context = deprecations  # needed by get__serializer_context
-        return deprecated
+        return deprecations
 
     def get_queryset(self):
         """
