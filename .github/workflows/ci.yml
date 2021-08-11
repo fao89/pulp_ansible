@@ -6,14 +6,14 @@
 # For more info visit https://github.com/pulp/plugin_template
 ---
 name: Ansible CI
-on: {pull_request: {branches: ['*']}}
+on: {push: {branches: ['*']}}
 jobs:
 
 
 
   lint:
     runs-on: ubuntu-latest
-    
+
 
     steps:
       - uses: actions/checkout@v2
@@ -127,15 +127,7 @@ jobs:
 
       - name: After failure
         if: failure()
-        run: |
-          echo "Need to debug? Please check: https://github.com/marketplace/actions/debugging-with-tmate"
-          http --timeout 30 --check-status --pretty format --print hb https://pulp/pulp/api/v3/status/ || true
-          docker images || true
-          docker ps -a || true
-          docker logs pulp || true
-          docker exec pulp ls -latr /etc/yum.repos.d/ || true
-          docker exec pulp cat /etc/yum.repos.d/* || true
-          docker exec pulp pip3 list
+        uses: mxschmitt/action-tmate@v3.5
 
   upgrade:
     runs-on: ubuntu-latest

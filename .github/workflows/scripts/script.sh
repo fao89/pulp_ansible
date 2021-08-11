@@ -165,6 +165,7 @@ else
     pytest -v -r sx --color=yes --pyargs pulp_ansible.tests.functional
 fi
 pushd ../pulp-cli
+pulp content list
 pytest -v -m pulp_ansible
 popd
 
