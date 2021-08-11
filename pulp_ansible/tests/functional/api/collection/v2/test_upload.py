@@ -1,23 +1,24 @@
 """Tests related to upload of collections."""
 import hashlib
+import unittest
 from urllib.parse import urljoin
 
 from pulp_smash import api, config
 from pulp_smash.exceptions import TaskReportError
-from pulp_smash.pulp3.bindings import delete_orphans, PulpTestCase
+from pulp_smash.pulp3.utils import delete_orphans
 from pulp_smash.utils import http_get
 
 from pulp_ansible.tests.functional.utils import set_up_module as setUpModule  # noqa:F401
 
 
-class UploadCollectionTestCase(PulpTestCase):
+class UploadCollectionTestCase(unittest.TestCase):
     """Upload a collection."""
 
     @classmethod
     def setUpClass(cls):
         """Create class-wide variables."""
         cls.cfg = config.get_config()
-        delete_orphans()
+        delete_orphans(cls.cfg)
         cls.client = api.Client(cls.cfg)
 
         collection_content = http_get(
@@ -46,4 +47,4 @@ class UploadCollectionTestCase(PulpTestCase):
         for key in ("artifact", "already", "exists"):
             self.assertIn(key, error["description"].lower(), error)
 
-        delete_orphans()
+        delete_orphans(self.cfg)
