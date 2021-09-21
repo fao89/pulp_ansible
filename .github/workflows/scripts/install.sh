@@ -119,7 +119,6 @@ fi
 
 ansible-playbook build_container.yaml
 ansible-playbook start_container.yaml
-
 echo ::group::SSL
 # Copy pulp CA
 sudo docker cp pulp:/etc/pulp/certs/pulp_webserver.crt /usr/local/share/ca-certificates/pulp_webserver.crt
