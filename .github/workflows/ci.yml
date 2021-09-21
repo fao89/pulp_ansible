@@ -89,6 +89,7 @@ jobs:
           - TEST: pulp
           - TEST: docs
           - TEST: s3
+          - TEST: azure
 
     steps:
       - uses: actions/checkout@v2
