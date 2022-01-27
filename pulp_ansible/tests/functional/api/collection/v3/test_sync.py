@@ -237,7 +237,7 @@ class SyncCollectionsFromPulpServerTestCase(TestCaseUsingBindings, SyncHelpersMi
             url=self.distribution.client_url,
             requirements_file=self.requirements_file,
             sync_dependencies=False,
-            proxy_url="http://127.0.0.1:8899",
+            proxy_url="http://ciproxy:8899",
         )
         second_remote = self.remote_collection_api.create(second_body)
         self.addCleanup(self.remote_collection_api.delete, second_remote.pulp_href)
@@ -246,7 +246,7 @@ class SyncCollectionsFromPulpServerTestCase(TestCaseUsingBindings, SyncHelpersMi
             self._create_repo_and_sync_with_remote(second_remote)
 
         task_result = cm.exception.task.to_dict()
-        msg = "407, message='Proxy Authentication Required', url=URL(" "'http://127.0.0.1:8899')"
+        msg = "407, message='Proxy Authentication Required', url=URL(" "'http://ciproxy:8899')"
         self.assertEqual(
             msg, task_result["error"]["description"], task_result["error"]["description"]
         )

@@ -160,7 +160,12 @@ if [[ "$TEST" == "performance" ]]; then
   exit
 fi
 
+# Enable proxy.py
 export PULP_PROXY_TEST=enabled
+cat /etc/hosts | grep ciproxy
+PROXY_HOSTNAME=$(cat /etc/hosts | grep ciproxy)
+echo $PROXY_HOSTNAME | docker exec -i pulp bash -c "cat >> /etc/hosts"
+
 
 if [ -f $FUNC_TEST_SCRIPT ]; then
   source $FUNC_TEST_SCRIPT
