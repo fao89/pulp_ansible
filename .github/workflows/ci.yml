@@ -11,89 +11,85 @@ on: {pull_request: {branches: ['*']}}
 jobs:
 
 
-  single_commit:
-    name: Assert single commit
-    if: github.base_ref == 'main'
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 30
-    - name: Checkout main
-      run: git fetch origin main
-    - name: create local main branch
-      run: git branch main origin/main
-    - name: Commit Count Check
-      run: test `git log  --oneline --no-merges HEAD ^main  | wc -l ` = 1
-    runs-on: ubuntu-latest
+  # single_commit:
+  #   name: Assert single commit
+  #   if: github.base_ref == 'main'
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v1
+  #     with:
+  #       fetch-depth: 30
+  #   - name: Checkout main
+  #     run: git fetch origin main
+  #   - name: create local main branch
+  #     run: git branch main origin/main
+  #   - name: Commit Count Check
+  #     run: test `git log  --oneline --no-merges HEAD ^main  | wc -l ` = 1
+  #   runs-on: ubuntu-latest
 
-  lint:
-    runs-on: ubuntu-latest
-    
+  # lint:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          # by default, it uses a depth of 1
-          # this fetches all history so that we can read each commit
-          fetch-depth: 0
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         # by default, it uses a depth of 1
+  #         # this fetches all history so that we can read each commit
+  #         fetch-depth: 0
 
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.8"
+  #     - uses: actions/setup-python@v2
+  #       with:
+  #         python-version: "3.8"
 
-        # dev_requirements contains tools needed for flake8, etc.
-      - name: Install requirements
-        run: pip3 install -r dev_requirements.txt
+  #       # dev_requirements contains tools needed for flake8, etc.
+  #     - name: Install requirements
+  #       run: pip3 install -r dev_requirements.txt
 
-      - name: Check commit message
-        if: github.event_name == 'pull_request'
-        env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          GITHUB_PULL_REQUEST: ${{ github.event.number }}
-          GITHUB_PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
-          GITHUB_BRANCH: ${{ github.head_ref }}
-          GITHUB_REPO_SLUG: ${{ github.repository }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
-        run: sh .github/workflows/scripts/check_commit.sh
+  #     - name: Check commit message
+  #       if: github.event_name == 'pull_request'
+  #       env:
+  #         PY_COLORS: '1'
+  #         ANSIBLE_FORCE_COLOR: '1'
+  #         GITHUB_PULL_REQUEST: ${{ github.event.number }}
+  #         GITHUB_PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
+  #         GITHUB_BRANCH: ${{ github.head_ref }}
+  #         GITHUB_REPO_SLUG: ${{ github.repository }}
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
+  #       run: sh .github/workflows/scripts/check_commit.sh
 
-      # run black separately from flake8 to get a diff
-      - name: Run black
-        run: |
-          black --version
-          black --check --diff .
+  #     # run black separately from flake8 to get a diff
+  #     - name: Run black
+  #       run: |
+  #         black --version
+  #         black --check --diff .
 
-      # Lint code.
-      - name: Run flake8
-        run: flake8 --config flake8.cfg
+  #     # Lint code.
+  #     - name: Run flake8
+  #       run: flake8 --config flake8.cfg
 
-      - name: Run extra lint checks
-        run: "[ ! -x .ci/scripts/extra_linting.sh ] || .ci/scripts/extra_linting.sh"
+  #     # check for any files unintentionally left out of MANIFEST.in
+  #     - name: Check manifest
+  #       run: check-manifest
 
-      # check for any files unintentionally left out of MANIFEST.in
-      - name: Check manifest
-        run: check-manifest
+  #     - name: Check for pulpcore imports outside of pulpcore.plugin
+  #       run: sh .ci/scripts/check_pulpcore_imports.sh
 
-      - name: Check for pulpcore imports outside of pulpcore.plugin
-        run: sh .ci/scripts/check_pulpcore_imports.sh
-
-      - name: Check for gettext problems
-        run: sh .ci/scripts/check_gettext.sh
+  #     - name: Check for gettext problems
+  #       run: sh .ci/scripts/check_gettext.sh
 
   test:
     runs-on: ubuntu-latest
     # run only after lint finishes
-    needs: lint
+    # needs: lint
     strategy:
       fail-fast: false
       matrix:
         env:
           - TEST: pulp
-          - TEST: docs
-          - TEST: azure
-          - TEST: s3
+          # - TEST: docs
+          # - TEST: azure
+          # - TEST: s3
     outputs:
       deprecations-pulp: ${{ steps.deprecations.outputs.deprecations-pulp }}
       deprecations-azure: ${{ steps.deprecations.outputs.deprecations-azure }}
@@ -122,7 +118,7 @@ jobs:
           echo "TEST=${{ matrix.env.TEST }}" >> $GITHUB_ENV
 
       - name: Before Install
-        
+
         run: .github/workflows/scripts/before_install.sh
         shell: bash
         env:
@@ -136,7 +132,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install
-        
+
         run: .github/workflows/scripts/install.sh
         shell: bash
         env:
@@ -150,7 +146,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install Python client
-        
+
         run: .github/workflows/scripts/install_python_client.sh
         shell: bash
 
@@ -160,7 +156,7 @@ jobs:
         shell: bash
 
       - name: Before Script
-        
+
         run: .github/workflows/scripts/before_script.sh
         shell: bash
         env:
@@ -181,7 +177,7 @@ jobs:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - name: Script
-        
+
         run: .github/workflows/scripts/script.sh
         shell: bash
         env:
@@ -216,7 +212,7 @@ jobs:
 
   upgrade:
     runs-on: ubuntu-latest
-    needs: lint
+    # needs: lint
 
     strategy:
       fail-fast: false
@@ -259,7 +255,7 @@ jobs:
           echo ::endgroup::
 
       - name: Before Install
-        
+
         run: .github/workflows/scripts/before_install.sh
         shell: bash
         env:
@@ -273,7 +269,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install
-        
+
         run: .github/workflows/scripts/install.sh
         shell: bash
         env:
@@ -287,12 +283,12 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install Python client
-        
+
         run: .github/workflows/scripts/install_python_client.sh
         shell: bash
 
       - name: Before Script
-        
+
         run: .github/workflows/scripts/before_script.sh
         shell: bash
         env:
@@ -307,13 +303,13 @@ jobs:
           REDIS_DISABLED: ${{ contains('', matrix.env.TEST) }}
 
       - name: Setting secrets
-        
+
         run: python3 .github/workflows/scripts/secrets.py "$SECRETS_CONTEXT"
         env:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - name: Upgrade Test
-        
+
         run: .github/workflows/scripts/script.sh
         shell: bash
         env:
@@ -359,5 +355,3 @@ jobs:
           echo "${{ needs.test.outputs.deprecations-azure }}" | base64 -d
           echo "${{ needs.test.outputs.deprecations-s3 }}" | base64 -d
           echo "${{ needs.test.outputs.deprecations-upgrade }}" | base64 -d
-
-
