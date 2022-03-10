@@ -104,7 +104,33 @@ export PYTHONPATH=$REPO_ROOT/../galaxy-importer${PYTHONPATH:+:${PYTHONPATH}}
 export PYTHONPATH=$REPO_ROOT/../pulpcore${PYTHONPATH:+:${PYTHONPATH}}
 export PYTHONPATH=$REPO_ROOT${PYTHONPATH:+:${PYTHONPATH}}
 
-exit 1
+
+
+
+
+
+docker ps
+docker exec pulp dynaconf list
+pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_ansible.tests.functional.test_ci_debugging
+
+
+
+
+
+
+
+
+
+
+exit
+
+
+
+
+
+
+
+
 
 if [[ "$TEST" == "upgrade" ]]; then
   # Handle app label change:
