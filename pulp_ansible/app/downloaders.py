@@ -83,6 +83,8 @@ class TokenAuthHttpDownloader(HttpDownloader):
 
         """
         if not self.token and not self.ansible_auth_url:
+            if self.auth:
+                self.session._default_auth = self.auth
             return await super()._run(extra_data=extra_data)
         elif self.token and not self.ansible_auth_url:
             # https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication
