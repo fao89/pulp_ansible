@@ -83,6 +83,7 @@ def gen_ansible_remote(url=ANSIBLE_FIXTURE_URL, include_pulp_auth=False, **kwarg
     if include_pulp_auth:
         kwargs["username"] = cfg.pulp_auth[0]
         kwargs["password"] = cfg.pulp_auth[1]
+        print(kwargs)
 
     if "rate_limit" not in kwargs:
         kwargs["rate_limit"] = 5
@@ -233,7 +234,7 @@ class SyncHelpersMixin:
             monitor_task(sync_response.task)
         except:  # noqa
             print(tasks.read(sync_response.task))
-            assert False
+            raise
         repo = self.repo_api.read(repo.pulp_href)
         return repo
 

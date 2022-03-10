@@ -1,6 +1,7 @@
 from datetime import datetime
 from gettext import gettext as _
 import semantic_version
+from logging import getLogger
 
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import DatabaseError
@@ -55,6 +56,9 @@ from pulp_ansible.app.serializers import (
 from pulp_ansible.app.galaxy.mixins import UploadGalaxyCollectionMixin
 from pulp_ansible.app.galaxy.v3.pagination import LimitOffsetPagination
 from pulp_ansible.app.viewsets import CollectionVersionFilter
+
+
+log = getLogger(__name__)
 
 
 class AnsibleDistributionMixin:
@@ -197,6 +201,8 @@ class CollectionViewSet(
         """
         Returns a Collections queryset for specified distribution.
         """
+        log.info(self.authentication_classes)
+        log.info(self.permission_classes)
         if getattr(self, "swagger_fake_view", False):
             # drf_spectacular get filter from get_queryset().model
             # and it fails when "path" is not on self.kwargs
@@ -464,12 +470,13 @@ class CollectionArtifactDownloadView(views.APIView):
             distro_base_path=distro_base_path,
             filename=self.kwargs["filename"],
         )
-
+        log.info("============================")
+        log.info(url)
         if distribution.content_guard:
             guard = distribution.content_guard.cast()
             if guard.TYPE == "content_redirect":
-                return redirect(guard.preauthenticate_url(url))
-
+                url = guard.preauthenticate_url(url)
+        log.info(url)
         return redirect(url)
 
 
@@ -693,6 +700,8 @@ def redirect_view_generator(actions, url, viewset, distro_view=True, responses={
             return "legacy-galaxy-v3"
 
         def _get(self, *args, **kwargs):
+            log.info(kwargs)
+            log.info(args)
             try:
                 return super().get(*args, **kwargs)
             except NotFound:
@@ -715,7 +724,11 @@ def redirect_view_generator(actions, url, viewset, distro_view=True, responses={
             url = reverse_lazy(
                 settings.ANSIBLE_URL_NAMESPACE + self.url, request=self.request, kwargs=kwargs
             )
-
+            log.info(kwargs)
+            log.info(args)
+            log.info(self.request.__dict__)
+            log.info("Redirecting to %s", url)
+            log.info(url)
             args = self.request.META.get("QUERY_STRING", "")
             if args:
                 url = "%s?%s" % (url, args)
@@ -728,6 +741,8 @@ def redirect_view_generator(actions, url, viewset, distro_view=True, responses={
             deprecated=True,
         )
         def retrieve(self, request, *args, **kwargs):
+            log.info(kwargs)
+            log.info(args)
             return self._get(request, *args, **kwargs)
 
         @extend_schema(
@@ -736,6 +751,8 @@ def redirect_view_generator(actions, url, viewset, distro_view=True, responses={
             deprecated=True,
         )
         def list(self, request, *args, **kwargs):
+            log.info(kwargs)
+            log.info(args)
             return self._get(request, *args, **kwargs)
 
         @extend_schema(
@@ -744,6 +761,8 @@ def redirect_view_generator(actions, url, viewset, distro_view=True, responses={
             deprecated=True,
         )
         def update(self, request, *args, **kwargs):
+            log.info(kwargs)
+            log.info(args)
             return self._get(request, *args, **kwargs)
 
     return GeneratedRedirectView.as_view(actions, url=url)

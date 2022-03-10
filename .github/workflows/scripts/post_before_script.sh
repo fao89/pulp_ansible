@@ -5,9 +5,25 @@ set -euv
 echo "machine pulp
 login admin
 password password
+
+machine localhost
+login admin
+password password
+
+machine 127.0.0.1
+login admin
+password password
 " > ~/.netrc
 
 chmod og-rw ~/.netrc
+
+cmd_stdin_prefix bash -c "cat > ~/.netrc" < ~/.netrc
+
+cmd_prefix bash -c "s6-svc -r /var/run/s6/services/pulpcore-api"
+cmd_prefix bash -c "s6-svc -r /var/run/s6/services/pulpcore-content"
+cmd_prefix bash -c "s6-svc -r /var/run/s6/services/pulpcore-worker@1"
+cmd_prefix bash -c "s6-svc -r /var/run/s6/services/pulpcore-worker@2"
+sleep 60
 
 if [[ "$TEST" == "upgrade" ]]; then
     exit
