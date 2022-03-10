@@ -720,7 +720,7 @@ def redirect_view_generator(actions, url, viewset, distro_view=True, responses={
                     del kwargs["path"]
 
                 kwargs = {**self.kwargs, "distro_base_path": path}
-
+            self.request.versioning_scheme = None
             url = reverse_lazy(
                 settings.ANSIBLE_URL_NAMESPACE + self.url, request=self.request, kwargs=kwargs
             )
