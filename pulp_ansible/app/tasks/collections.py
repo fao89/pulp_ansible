@@ -1063,6 +1063,11 @@ class DeclarativeFailsafeArtifact(DeclarativeArtifact):
         artifact_copy = self.artifact
         try:
             return await super().download()
+        except ClientResponseError as exc:
+                if exc.status == 404:
+                    log.info(f"Failed to download namespace avatar: {name} - {exc}, Skipping")
+                    return None
+                raise
         except (ClientError, DigestValidationError) as e:
             # Reset DA so that future stages can properly handle it
             self.artifact = artifact_copy
